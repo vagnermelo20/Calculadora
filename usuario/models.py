@@ -24,20 +24,3 @@ class Usuario(models.Model):
         db_table = 'Usuario'
         verbose_name = "Usuário"
         verbose_name_plural = "Usuários"
-
-class Operacao(models.Model):
-    IDOperacao = models.AutoField(primary_key=True)
-    IDUsuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, db_column='IDUsuario')
-    Parametros = models.CharField(max_length=255, null=False, blank=False)
-    Resultado = models.CharField(max_length=255, null=False, blank=False)
-    DtInclusao = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        # Acessa o usuário através do campo IDUsuario dele e depois seu email, ai mostra os parametros e resultado
-        return f"{self.IDUsuario.Nome} ({self.IDUsuario.Email})  equação: {self.Parametros} = {self.Resultado}"
-
-    class Meta:
-        # Formatar o nome de Operacao na tabela
-        db_table = 'Operacao'
-        verbose_name = "Operação"
-        verbose_name_plural = "Operações"
