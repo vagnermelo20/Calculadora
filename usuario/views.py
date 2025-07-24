@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth import login, logout
+
+from django.contrib.auth import login, logout, authenticate
 from .models import Usuario
 
 class HomeView(View):
@@ -37,18 +38,15 @@ class LoginView(View):
     def post(self, request):
         email = request.POST.get('email')
         senha = request.POST.get('senha')
-        
-        try:
-            user = Usuario.objects.get(email=email)
-            if user.checar_senha_hasheada(senha):
-                login(request, user)
-                return redirect('calculadora')
-            else:
-                context = {'error': 'Email ou senha inválidos.'}
-                return render(request, 'usuario/login.html', context)
-        except Usuario.DoesNotExist:
-            context = {'error': 'Email ou senha inválidos.'}
-            return render(request, 'usuario/login.html', context)
+        user = authenticate(request, username=email, password=senha)
+
+        if user is not None:
+            login(request, user)  # já sem update_last_login para Usuario
+            return redirect('calculadora_main')
+
+        return render(request, 'usuario/login.html', {
+            'error': 'Email ou senha inválidos.'
+        })
 
 class LogoutView(View):
     def get(self, request):
