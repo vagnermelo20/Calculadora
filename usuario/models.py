@@ -15,6 +15,13 @@ class Usuario(models.Model):
 
     def checar_senha_hasheada(self, senha_nao_hash):
         return check_password(senha_nao_hash, self.senha)
+    
+    @property
+    def is_authenticated(self):
+        """ 
+        Metodo necessário para que o Django reconheça o usuário como autenticado e possa continuar logado.
+        """
+        return True
 
     def __str__(self):
         return f"{self.nome} ({self.email})"
