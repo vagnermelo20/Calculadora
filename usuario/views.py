@@ -3,6 +3,10 @@ from django.views import View
 from django.contrib.auth import login, logout
 from .models import Usuario
 
+class HomeView(View):
+    def get(self, request):
+        return render(request, 'usuario/home.html')
+    
 class CadastroView(View):
     def get(self, request):
         return render(request, 'cadastro.html')
@@ -38,7 +42,7 @@ class LoginView(View):
             user = Usuario.objects.get(email=email)
             if user.checar_senha_hasheada(senha):
                 login(request, user)
-                return redirect('pagina_principal')
+                return redirect('calculadora/calculadora.html')
             else:
                 context = {'error': 'Email ou senha inválidos.'}
                 return render(request, 'login.html', context)
@@ -49,4 +53,4 @@ class LoginView(View):
 class LogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect('login')
+        return redirect('home')
