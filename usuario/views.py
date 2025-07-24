@@ -9,7 +9,7 @@ class HomeView(View):
     
 class CadastroView(View):
     def get(self, request):
-        return render(request, 'cadastro.html')
+        return render(request, 'usuario/cadastro.html')
 
     def post(self, request):
         nome = request.POST.get('nome')
@@ -19,11 +19,11 @@ class CadastroView(View):
 
         if senha != senha_confirmacao:
             context = {'error': 'As senhas não coincidem!'}
-            return render(request, 'cadastro.html', context)
-        
+            return render(request, 'usuario/cadastro.html', context)
+
         if Usuario.objects.filter(email=email).exists():
             context = {'error': 'Este email já está em uso.'}
-            return render(request, 'cadastro.html', context)
+            return render(request, 'usuario/cadastro.html', context)
 
         user = Usuario(nome=nome, email=email)
         user.salvar_senha_hasheada(senha)
@@ -32,7 +32,7 @@ class CadastroView(View):
 
 class LoginView(View):
     def get(self, request):
-        return render(request, 'login.html')
+        return render(request, 'usuario/login.html')
 
     def post(self, request):
         email = request.POST.get('email')
@@ -42,13 +42,13 @@ class LoginView(View):
             user = Usuario.objects.get(email=email)
             if user.checar_senha_hasheada(senha):
                 login(request, user)
-                return redirect('calculadora/calculadora.html')
+                return redirect('calculadora')
             else:
                 context = {'error': 'Email ou senha inválidos.'}
-                return render(request, 'login.html', context)
+                return render(request, 'usuario/login.html', context)
         except Usuario.DoesNotExist:
             context = {'error': 'Email ou senha inválidos.'}
-            return render(request, 'login.html', context)
+            return render(request, 'usuario/login.html', context)
 
 class LogoutView(View):
     def get(self, request):
