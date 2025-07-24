@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro de Usuário</title>
-    <style>
-        body { font-family: sans-serif; margin: 2em; }
-        div { margin-bottom: 10px; display: flex; flex-direction: column; }
-        label { margin-bottom: 5px; }
-        input { padding: 8px; }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
+{% block title %}Cadastro de Usuário{% endblock title %}
+
+{% block content %}
     <h1>Crie sua Conta</h1>
 
     <form method="post">
@@ -47,6 +37,4 @@
 
     <br>
     <p>Já tem uma conta? <a href="{% url 'login' %}">Faça login aqui</a>.</p>
-
-</body>
-</html>
+{% endblock content %}
