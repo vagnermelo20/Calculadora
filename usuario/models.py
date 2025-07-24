@@ -11,10 +11,10 @@ class Usuario(models.Model):
 
     '''Metodos para conseguir hashear e checar a senha hasheada'''
     def salvar_senha_hasheada(self, senha_nao_hash):
-        self.Senha = make_password(senha_nao_hash)
+        self.senha = make_password(senha_nao_hash)
 
     def checar_senha_hasheada(self, senha_nao_hash):
-        return check_password(senha_nao_hash, self.Senha)
+        return check_password(senha_nao_hash, self.senha)
 
     def __str__(self):
         return f"{self.nome} ({self.email})"
